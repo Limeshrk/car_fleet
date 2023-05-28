@@ -8,6 +8,8 @@ from models.mixin_model import MixinModel
 
 class CarModel(BaseModel, MixinModel):
   __tablename__ = 'cars'
+  # back populates the position
+  positions = relationship('PositionModel', back_populates='car')
   # id = db.Column(db.Integer, primary_key=True)
   id = mapped_column(Integer, primary_key=True)
   # license_plate = db.Column(db.String(7), unique=True)
