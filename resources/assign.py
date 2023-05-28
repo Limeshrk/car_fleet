@@ -17,7 +17,7 @@ class AssignDriverToCar(Resource):
 
   def post(self):
     data = AssignDriverToCar.parser.parse_args()
-    driver = DriverModel.find_by_id(data['driver_id'])
+    driver = DriverModel.find_by_attribute(id=data['driver_id'])
 
     # if driver:
     #   if car:
@@ -47,7 +47,7 @@ class AssignDriverToCar(Resource):
     if not driver:
       return {'message': 'Driver not found.'}, 404
 
-    car = CarModel.find_by_id(data['car_id'])
+    car = CarModel.find_by_attribute(id=data['car_id'])
     if not car:
       return {'message': 'Car not found.'}, 404
 
@@ -76,3 +76,4 @@ class AssignDriverToCar(Resource):
         'message':
         f"Driver {driver.name} was assigned to car: {car.license_plate}."
     }, 201
+    

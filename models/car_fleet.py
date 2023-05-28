@@ -20,6 +20,6 @@ class CarFleetLink(BaseModel, MixinModel):
     self.car_id = car_id
     self.fleet_id = fleet_id
 
-  @classmethod
+"""   @classmethod
   def link_exists(cls, car_id, fleet_id):
-    return cls.query.filter_by(car_id=car_id, fleet_id=fleet_id).first()
+    return cls.query.filter_by(car_id=car_id, fleet_id=fleet_id).first() """

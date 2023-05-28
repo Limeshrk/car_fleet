@@ -23,6 +23,7 @@ class DriverModel(BaseModel, MixinModel):
   def json(self):
     return {'name': self.name, 'id': self.id}
 
-  @classmethod
+"""   @classmethod
   def find_by_id(cls, id):
     return cls.query.filter_by(id=id).first()
+ """
