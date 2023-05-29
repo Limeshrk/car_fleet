@@ -2,6 +2,7 @@ from models.mixin_model import MixinModel
 from db import db, BaseModel
 from sqlalchemy.orm import mapped_column, relationship
 from sqlalchemy import Integer, String, ForeignKey
+from passlib.hash import pbkdf2_sha512
 
 
 class UserModel(BaseModel, MixinModel):
@@ -11,13 +12,13 @@ class UserModel(BaseModel, MixinModel):
   # username = db.Column(db.String(80))
   username = mapped_column(String(80))
   # password = db.Column(db.String(80))
-  password = mapped_column(String(80))
+  password = mapped_column(String(800))
 
   email = mapped_column(String(80))
 
   def __init__(self, username, password):
     self.username = username
-    self.password = password
+    self.password = pbkdf2_sha512.using(rounds=310000, salt_size=20).hash(password)  # hashed password
 
   def json(self):
     return {'name': self.username, 'id': self.id}

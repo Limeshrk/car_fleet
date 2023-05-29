@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
 
-
+# password hashing is handled by the UserModel
 class UserRegister(Resource):
   parser = reqparse.RequestParser()
   parser.add_argument('username',
