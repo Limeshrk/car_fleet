@@ -23,6 +23,7 @@ class CarPosition(Resource):
     if not car:
       return {'message': 'Car not found'}, 404
     car_position = PositionModel(date=datetime.now(), latitude=data['latitude'], longitude=data['longitude'], car_id=car.id)
+    car_position.resolve_address()
     car_position.save_to_db()
     return {'message': 'Position saved successfully'}, 201
   
