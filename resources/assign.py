@@ -19,31 +19,6 @@ class AssignDriverToCar(Resource):
     data = AssignDriverToCar.parser.parse_args()
     driver = DriverModel.find_by_attribute(id=data['driver_id'])
 
-    # if driver:
-    #   if car:
-    #     if car.driver_id == driver.id:
-    #       other_driver = db.session.query(CarModel).filter(
-    #           CarModel.driver_id == driver.id).first()
-    #       if not other_driver:
-    #         if car.driver_id is None:
-    #           car.driver_id = driver.id
-    #           db.session.commit()
-    #           return {
-    #               'message':
-    #               f"Driver {driver.name} was assigned to car: {car.license_plate}."
-    #           }, 201
-    #         else:
-    #           return {'message': 'Car already has a driver.'}, 400
-    #       else:
-    #         return {
-    #             'message':
-    #             f"Driver {driver.name} is already assigned to another car!"
-    #         }, 400
-    #     else:
-    #       return {'message': 'Driver already assigned to car.'}, 400
-    #   else:
-    #     return {'message': 'Car not found.'}, 404
-
     if not driver:
       return {'message': 'Driver not found.'}, 404
 
@@ -77,3 +52,24 @@ class AssignDriverToCar(Resource):
         f"Driver {driver.name} was assigned to car: {car.license_plate}."
     }, 201
     
+  def delete(self):
+    data = AssignDriverToCar.parser.parse_args()
+    driver = DriverModel.find_by_attribute(id=data['driver_id'])
+    car = CarModel.find_by_attribute(id=data['car_id'])
+    
+    if not driver:
+      return {'message': 'Driver not found'}, 404
+    
+    if not car:
+      return {'message': 'Car not found'}, 404
+    
+    if car.driver_id != driver.id:
+      return {'message': 'This assigment does not exist'}, 400
+    
+    driver_name = driver.name 
+    car_plate = car.license_plate 
+    
+    car.driver_id = None
+    db.session.commit()
+    
+    return {'message': f'Driver ({driver_name}) was unassigned from car ({car_plate})'}, 200
